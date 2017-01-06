@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 3.0)
-project(framework-application-template)
+project(bullet-kinematic-chains)
 
 # set(CMAKE_BUILD_TYPE Debug)
 
 set(PROJECT_NAME_LIB ${PROJECT_NAME}-lib)
 set(DEPENDENCIES_DIR dependencies/)
 
+find_package(Bullet REQUIRED)
 add_subdirectory(${DEPENDENCIES_DIR}/framework)
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_BINARY_DIR}
+    ${BULLET_INCLUDE_DIR}
 )
 
 add_library(${PROJECT_NAME_LIB}
@@ -27,6 +29,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     ${PROJECT_NAME_LIB}
+    ${BULLET_LIBRARIES}
 )
 
 set(PROJECT_COMPILE_FEATURES

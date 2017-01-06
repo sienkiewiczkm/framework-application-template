@@ -13,6 +13,8 @@
 #include "fw/UniversalPhongEffect.hpp"
 #include "fw/Vertices.hpp"
 
+#include "bullet/btBulletDynamicsCommon.h"
+
 namespace application
 {
 
@@ -38,6 +40,16 @@ protected:
 
     void updateProjectionMatrix();
 
+    void createBullet();
+    void createPhysicsScene();
+    void destroyBullet();
+
+    btRigidBody* createRigidBody(
+        btCollisionShape* shape,
+        float mass,
+        const btTransform& transform
+    );
+
 private:
     std::shared_ptr<fw::TexturedPhongEffect> _phongEffect;
     std::shared_ptr<fw::UniversalPhongEffect> _universalPhongEffect;
@@ -53,6 +65,17 @@ private:
 
     glm::dvec2 _cameraRotationSensitivity;
     GLuint _testTexture;
+
+    bool _enablePhysicsStepping;
+
+    btDefaultCollisionConfiguration* _collisionConfiguration;
+    btCollisionDispatcher* _collisionDispatcher;
+    btBroadphaseInterface* _overlappingPairCache;
+    btSequentialImpulseConstraintSolver* _constraintSolver;
+    btDiscreteDynamicsWorld* _dynamicsWorld;
+    btAlignedObjectArray<btCollisionShape*> _collisionShapes;
+    btRigidBody* _groundRigidBody;
+    btRigidBody* _cubeRigidBody;
 };
 
 }
